@@ -1,7 +1,6 @@
 package com.gregory.learning;
 
 import com.gregory.learning.graphics.UIContainer;
-import com.gregory.learning.service.GifMaker;
 import java.awt.AWTException;
 import java.awt.EventQueue;
 import java.io.IOException;
