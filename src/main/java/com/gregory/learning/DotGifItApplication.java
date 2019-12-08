@@ -1,7 +1,9 @@
 package com.gregory.learning;
 
+import com.gregory.learning.graphics.UIContainer;
 import com.gregory.learning.service.GifMaker;
 import java.awt.AWTException;
+import java.awt.EventQueue;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +20,11 @@ public class DotGifItApplication implements CommandLineRunner {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DotGifItApplication.class);
 
-  private final GifMaker gifMaker;
+  private final UIContainer uiContainer;
 
   @Autowired
-  public DotGifItApplication(GifMaker gifMaker) {
-    this.gifMaker = gifMaker;
+  public DotGifItApplication(UIContainer UIContainer) {
+    this.uiContainer = UIContainer;
   }
 
   public static void main(final String[] args) {
@@ -36,7 +38,13 @@ public class DotGifItApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws IOException, AWTException {
-    LOGGER.info("Calling gif maker");
-    gifMaker.createGif();
+
+    EventQueue.invokeLater(() -> {
+
+      uiContainer.runApp();
+      uiContainer.setVisible(true);
+
+    });
+
   }
 }

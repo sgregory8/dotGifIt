@@ -22,7 +22,8 @@ import org.springframework.stereotype.Service;
 public class GifMakerImpl implements GifMaker {
 
   private static final String IMAGE_DIRECTORY_NAME = "images";
-  private static final String IMAGE_SUFFIX = ".jpg";
+  private static final String JPEG_TYPE = "jpg";
+  private static final String IMAGE_SUFFIX = "." + JPEG_TYPE;
   private static final String META_DATA_IMAGE = "MetaData" + IMAGE_SUFFIX;
   private static final String GIF_NAME = "test";
   private static final String GIF_SUFFIX = ".gif";
@@ -59,12 +60,13 @@ public class GifMakerImpl implements GifMaker {
     while (count < 10) {
 
       BufferedImage image = robot.createScreenCapture(screenRect);
-      ImageIO.write(image, "jpg",
+      ImageIO.write(image, JPEG_TYPE,
           new File(imageDirectory + File.separator + count + IMAGE_SUFFIX));
 
       gifSequenceWriter.writeToSequence(image);
       count++;
     }
+    LOGGER.info("Closing gif writer and image output streams");
     gifSequenceWriter.close();
     outputStream.close();
   }
