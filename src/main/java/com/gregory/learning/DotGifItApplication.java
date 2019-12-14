@@ -1,6 +1,6 @@
 package com.gregory.learning;
 
-import com.gregory.learning.graphics.UIContainer;
+import com.gregory.learning.Gui.UIContainer;
 import java.awt.AWTException;
 import java.awt.EventQueue;
 import java.io.IOException;
