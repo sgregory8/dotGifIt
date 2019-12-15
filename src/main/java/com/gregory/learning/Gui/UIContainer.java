@@ -64,25 +64,11 @@ public class UIContainer extends JFrame {
   private void initUI() {
 
     setLayout(new BorderLayout());
+    setResizable(false);
 
     add(leftPanel, BorderLayout.WEST);
     add(rightPanel, BorderLayout.EAST);
-//    var recordButton = new JButton("+");
-//    recordButton.setPreferredSize(new Dimension(10, 10));
-//
-//    recordButton.addActionListener((event) -> {
-//      try {
-//        gifMaker.createGif();
-//        System.out.println("initUI : " + isEventDispatchThread());
-//      } catch (IOException e) {
-//        e.printStackTrace();
-//      } catch (AWTException e) {
-//        e.printStackTrace();
-//      }
-//      System.exit(0);
-//    });
-//
-//    add(recordButton);
+
 
     setTitle("dot GIF it!");
     setSize(300, 200);

@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,7 +43,8 @@ public class LeftPanel extends JPanel implements ActionListener {
 
     }
     if (clicked == folderButton) {
-
+      JFileChooser jFileChooser = new JFileChooser();
+      jFileChooser.showOpenDialog(this);
     }
     if (clicked == recordButton) {
       try {
