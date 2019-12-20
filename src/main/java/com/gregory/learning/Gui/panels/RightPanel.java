@@ -29,7 +29,7 @@ public class RightPanel extends JPanel implements ActionListener {
         .toString());
 
     Image image = imageIcon.getImage(); // transform it
-    Image newimg = image.getScaledInstance(300, 300,  java.awt.Image.SCALE_SMOOTH);
+    Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH);
     imageIcon = new ImageIcon(newimg);
 
     this.jLabel = new JLabel(imageIcon);

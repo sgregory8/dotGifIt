@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
+import javax.swing.SwingUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,7 @@ public class GifMakerImpl implements GifMaker {
 
   @Override
   public void createGif() throws IOException, AWTException {
+    LOGGER.info("Gif maker called, from edt? : " + SwingUtilities.isEventDispatchThread());
     BufferedImage testImage = ImageIO.read(
         new File(imageDirectory.toString() + File.separator + META_DATA_IMAGE));
 
@@ -55,19 +57,24 @@ public class GifMakerImpl implements GifMaker {
     Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
     Robot robot = new Robot();
 
-    int count = 0;
+    final BufferedImage screen = robot.createScreenCapture(
+        new Rectangle(screenRect));
 
-    while (count < 10) {
+    new ScreenCaptureRectangle(screen);
 
-      BufferedImage image = robot.createScreenCapture(screenRect);
-      ImageIO.write(image, JPEG_TYPE,
-          new File(imageDirectory + File.separator + count + IMAGE_SUFFIX));
-
-      gifSequenceWriter.writeToSequence(image);
-      count++;
-    }
-    LOGGER.info("Closing gif writer and image output streams");
-    gifSequenceWriter.close();
-    outputStream.close();
+//    int count = 0;
+//
+//    while (count < 10) {
+//
+//      BufferedImage image = robot.createScreenCapture(screenRect);
+//      ImageIO.write(image, JPEG_TYPE,
+//          new File(imageDirectory + File.separator + count + IMAGE_SUFFIX));
+//
+//      gifSequenceWriter.writeToSequence(image);
+//      count++;
+//    }
+//    LOGGER.info("Closing gif writer and image output streams");
+//    gifSequenceWriter.close();
+//    outputStream.close();
   }
 }

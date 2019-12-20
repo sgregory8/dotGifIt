@@ -48,6 +48,7 @@ public class LeftPanel extends JPanel implements ActionListener {
     }
     if (clicked == recordButton) {
       try {
+
         gifMaker.createGif();
         System.exit(0);
       } catch (IOException ex) {

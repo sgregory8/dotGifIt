@@ -7,18 +7,13 @@ import com.gregory.learning.DotGifItApplication;
 import com.gregory.learning.Gui.panels.LeftPanel;
 import com.gregory.learning.Gui.panels.RightPanel;
 import com.gregory.learning.service.GifMaker;
-import java.awt.AWTException;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.border.Border;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +28,6 @@ public class UIContainer extends JFrame {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DotGifItApplication.class);
 
-  private final GifMaker gifMaker;
-
   private final LeftPanel leftPanel;
 
   private final RightPanel rightPanel;
@@ -42,9 +35,8 @@ public class UIContainer extends JFrame {
   private ImageIcon imageIcon;
 
   @Autowired
-  public UIContainer(GifMaker gifMaker, LeftPanel leftPanel, RightPanel rightPanel)
+  public UIContainer(LeftPanel leftPanel, RightPanel rightPanel)
       throws HeadlessException {
-    this.gifMaker = gifMaker;
     this.leftPanel = leftPanel;
     this.rightPanel = rightPanel;
     try {
