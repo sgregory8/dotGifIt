@@ -8,16 +8,20 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class ResizableRectangle extends JPanel {
+public class ResizableRectangle extends JPanel implements ActionListener {
 
   private static final JFrame transparentFrame = new JFrame();
   private JPanel selectableFrame;
+  private JButton recordButton;
+  private JButton backButton;
 
   int x, y, x2, y2;
 
@@ -25,7 +29,7 @@ public class ResizableRectangle extends JPanel {
     transparentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     ResizableRectangle m = new ResizableRectangle();
     transparentFrame.setUndecorated(true);
-    transparentFrame.setBackground(new Color(0,0,0,30));
+    transparentFrame.setBackground(new Color(0,0,0,0));
     m.setOpaque(false);
     transparentFrame.setContentPane(m);
     transparentFrame.setAlwaysOnTop(true);
@@ -34,6 +38,7 @@ public class ResizableRectangle extends JPanel {
   }
 
   public ResizableRectangle() {
+    System.out.println("from constructor" + transparentFrame);
     x = y = x2 = y2 = 0; //
     super.setOpaque(false);
     MyMouseListener listener = new MyMouseListener();
@@ -52,6 +57,7 @@ public class ResizableRectangle extends JPanel {
   }
 
   public void drawRectAndPanel(Graphics g, int x, int y, int x2, int y2) {
+    System.out.println("called draw");
     int px = Math.min(x, x2);
     int py = Math.min(y, y2);
     int pw = Math.abs(x - x2);
@@ -69,11 +75,17 @@ public class ResizableRectangle extends JPanel {
     g2d.setStroke(dashed);
     g2d.drawRect(px, py, pw, ph);
     if (selectableFrame == null) {
+      System.out.println("in if in draw");
       selectableFrame = new JPanel();
       selectableFrame.setOpaque(false);
       selectableFrame.setLayout(new FlowLayout());
-      selectableFrame.add(new JButton("Record"));
-      selectableFrame.add(new JButton("Back"));
+      recordButton = new JButton("Record");
+      backButton = new JButton("Back");
+      recordButton.addActionListener(this);
+      backButton.addActionListener(this);
+      selectableFrame.add(recordButton);
+      selectableFrame.add(backButton);
+      System.out.println(transparentFrame);
       transparentFrame.add(selectableFrame);
     }
     selectableFrame.setLocation(px + pw/2 - (selectableFrame.getWidth()/2), py + ph);
@@ -95,6 +107,7 @@ public class ResizableRectangle extends JPanel {
     @Override
     public void mouseReleased(MouseEvent e) {
       setEndPoint(e.getX(), e.getY());
+      System.out.println("release called");
       repaint();
     }
   }
@@ -106,6 +119,16 @@ public class ResizableRectangle extends JPanel {
     drawRectAndPanel(g, x, y, x2, y2);
   }
 
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    JButton clicked = (JButton) e.getSource();
+    if (clicked == recordButton) {
 
+    }
+    if (clicked == backButton) {
+      transparentFrame.remove(selectableFrame);
+      transparentFrame.dispose();
+    }
+  }
 
 }

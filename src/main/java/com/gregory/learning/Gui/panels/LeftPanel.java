@@ -1,12 +1,16 @@
 package com.gregory.learning.Gui.panels;
 
+import com.gregory.learning.Gui.recording.BackgroundPane;
 import com.gregory.learning.Gui.recording.ResizableRectangle;
 import com.gregory.learning.service.GifMaker;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +21,8 @@ public class LeftPanel extends JPanel implements ActionListener {
   private JButton settingsButton;
   private JButton folderButton;
   private JButton recordButton;
+  private ResizableRectangle resizableRectangle;
+  private JFrame darkFrame;
 
   private GifMaker gifMaker;
 
@@ -46,7 +52,15 @@ public class LeftPanel extends JPanel implements ActionListener {
       jFileChooser.showOpenDialog(this);
     }
     if (clicked == recordButton) {
-      new ResizableRectangle().initResizableRectangle();
+      darkFrame = new JFrame();
+      darkFrame.setUndecorated(true);
+      darkFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+      darkFrame.setBackground(new Color(0, 0, 0, 0));
+      darkFrame.setLayout(new BorderLayout());
+      darkFrame.add(new BackgroundPane());
+      darkFrame.pack();
+      darkFrame.setLocationRelativeTo(null);
+      darkFrame.setVisible(true);
     }
   }
 }
