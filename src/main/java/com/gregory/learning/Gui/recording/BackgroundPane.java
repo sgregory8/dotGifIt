@@ -1,5 +1,7 @@
 package com.gregory.learning.Gui.recording;
 
+import com.gregory.learning.service.GifMaker;
+import java.awt.AWTException;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,14 +17,21 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import org.springframework.stereotype.Component;
 
-public class BackgroundPane extends JPanel {
+public class BackgroundPane extends JPanel implements ActionListener {
 
   private Point mouseAnchor;
   private Point dragPoint;
@@ -34,10 +43,15 @@ public class BackgroundPane extends JPanel {
   int darkH;
   int screenHeight, screenWidth;
   Point topLeftPixel, topRightPixel, bottomLeftPixel, bottomRightPixel;
+  private JButton recordButton;
+  private JButton backButton;
 
   private SelectionPane selectionPane;
 
-  public BackgroundPane() {
+  private GifMaker gifMaker;
+
+  public BackgroundPane(GifMaker gifMaker) {
+    this.gifMaker = gifMaker;
     super.setOpaque(false);
     // Get the size of the screen
     Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -62,8 +76,12 @@ public class BackgroundPane extends JPanel {
     jPanel.setSize(500, 100);
     jPanel.setOpaque(false);
     jPanel.setLayout(new FlowLayout());
-    jPanel.add(new JButton("Record"));
-    jPanel.add(new JButton("Back"));
+    recordButton = new JButton("Record");
+    backButton = new JButton("Back");
+    jPanel.add(recordButton);
+    jPanel.add(backButton);
+    backButton.addActionListener(this);
+    recordButton.addActionListener(this);
     setLayout(null);
     selectionPane.setBounds(x, y, w, h);
     setDarkCoordinates(x, y, w, h);
@@ -120,22 +138,37 @@ public class BackgroundPane extends JPanel {
   }
 
   @Override
+  public void actionPerformed(ActionEvent e) {
+    JButton clicked = (JButton) e.getSource();
+    if (clicked == backButton) {
+      JComponent comp = (JComponent) e.getSource();
+      Window win = SwingUtilities.getWindowAncestor(comp);
+      win.dispose();
+    }
+    if (clicked == recordButton) {
+      try {
+        gifMaker.createGif();
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      } catch (AWTException ex) {
+        ex.printStackTrace();
+      }
+    }
+  }
+
+  @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g.create();
     g2d.setColor(new Color(0, 0, 0, 60));
     // Left
     g2d.fillRect(0, darkY, darkX, selectionPane.getHeight());
-    g2d.drawRect(0, darkY, darkX, selectionPane.getHeight());
     // Right
     g2d.fillRect(darkX + selectionPane.getWidth(), darkY, screenWidth, selectionPane.getHeight());
-    g2d.drawRect(darkX + selectionPane.getWidth(), darkY, screenWidth, selectionPane.getHeight());
     // Top
     g2d.fillRect(0, 0, screenWidth, darkY);
-    g2d.drawRect(0, 0, screenWidth, darkY);
     // Bottom
     g2d.fillRect(0, darkY + selectionPane.getHeight(), screenWidth, screenHeight);
-    g2d.drawRect(0, darkY + selectionPane.getHeight(), screenWidth, screenHeight);
 
     g2d.dispose();
   }

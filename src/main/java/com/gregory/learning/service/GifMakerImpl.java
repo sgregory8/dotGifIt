@@ -57,24 +57,19 @@ public class GifMakerImpl implements GifMaker {
     Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
     Robot robot = new Robot();
 
-    final BufferedImage screen = robot.createScreenCapture(
-        new Rectangle(screenRect));
+    int count = 0;
 
-    new ScreenCaptureRectangle(screen);
+    while (count < 10) {
 
-//    int count = 0;
-//
-//    while (count < 10) {
-//
-//      BufferedImage image = robot.createScreenCapture(screenRect);
-//      ImageIO.write(image, JPEG_TYPE,
-//          new File(imageDirectory + File.separator + count + IMAGE_SUFFIX));
-//
-//      gifSequenceWriter.writeToSequence(image);
-//      count++;
-//    }
-//    LOGGER.info("Closing gif writer and image output streams");
-//    gifSequenceWriter.close();
-//    outputStream.close();
+      BufferedImage image = robot.createScreenCapture(screenRect);
+      ImageIO.write(image, JPEG_TYPE,
+          new File(imageDirectory + File.separator + count + IMAGE_SUFFIX));
+
+      gifSequenceWriter.writeToSequence(image);
+      count++;
+    }
+    LOGGER.info("Closing gif writer and image output streams");
+    gifSequenceWriter.close();
+    outputStream.close();
   }
 }

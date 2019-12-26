@@ -57,7 +57,7 @@ public class LeftPanel extends JPanel implements ActionListener {
       darkFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
       darkFrame.setBackground(new Color(0, 0, 0, 0));
       darkFrame.setLayout(new BorderLayout());
-      darkFrame.add(new BackgroundPane());
+      darkFrame.add(new BackgroundPane(gifMaker));
       darkFrame.pack();
       darkFrame.setLocationRelativeTo(null);
       darkFrame.setVisible(true);
