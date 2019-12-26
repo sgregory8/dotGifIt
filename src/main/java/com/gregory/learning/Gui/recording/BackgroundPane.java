@@ -43,7 +43,7 @@ public class BackgroundPane extends JPanel {
     Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     screenHeight = (int) dim.getHeight();
     screenWidth = (int) dim.getWidth();
-    topLeftPixel = new Point(0,0);
+    topLeftPixel = new Point(0, 0);
     bottomLeftPixel = new Point(0, dim.height);
     topRightPixel = new Point(dim.width, 0);
     bottomRightPixel = new Point(dim.width, dim.height);
@@ -66,7 +66,7 @@ public class BackgroundPane extends JPanel {
     jPanel.add(new JButton("Back"));
     setLayout(null);
     selectionPane.setBounds(x, y, w, h);
-    setDarkCoordinates(x,y,w,h);
+    setDarkCoordinates(x, y, w, h);
     jPanel.setLocation(x + w / 2 - jPanel.getWidth() / 2, y + h);
     add(selectionPane);
     selectionPane.add(jLabel);
@@ -123,13 +123,20 @@ public class BackgroundPane extends JPanel {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g.create();
-    g2d.setColor(new Color(128, 128, 128, 60));
+    g2d.setColor(new Color(0, 0, 0, 60));
     // Left
     g2d.fillRect(0, darkY, darkX, selectionPane.getHeight());
     g2d.drawRect(0, darkY, darkX, selectionPane.getHeight());
     // Right
     g2d.fillRect(darkX + selectionPane.getWidth(), darkY, screenWidth, selectionPane.getHeight());
     g2d.drawRect(darkX + selectionPane.getWidth(), darkY, screenWidth, selectionPane.getHeight());
+    // Top
+    g2d.fillRect(0, 0, screenWidth, darkY);
+    g2d.drawRect(0, 0, screenWidth, darkY);
+    // Bottom
+    g2d.fillRect(0, darkY + selectionPane.getHeight(), screenWidth, screenHeight);
+    g2d.drawRect(0, darkY + selectionPane.getHeight(), screenWidth, screenHeight);
+
     g2d.dispose();
   }
 
