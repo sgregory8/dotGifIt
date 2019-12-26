@@ -5,6 +5,8 @@ import java.io.IOException;
 
 public interface GifMaker {
 
-  void createGif() throws IOException, AWTException;
+  void startRecording() throws IOException, AWTException;
+
+  void stopRecording() throws IOException, AWTException;
 
 }

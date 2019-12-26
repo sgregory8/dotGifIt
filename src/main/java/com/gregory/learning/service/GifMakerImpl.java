@@ -31,6 +31,12 @@ public class GifMakerImpl implements GifMaker {
 
   private static Path imageDirectory;
 
+  public void setRecording(boolean recording) {
+    isRecording = recording;
+  }
+
+  private boolean isRecording = false;
+
   private static final Logger LOGGER = LoggerFactory.getLogger(GifMakerImpl.class);
 
   static {
@@ -43,7 +49,16 @@ public class GifMakerImpl implements GifMaker {
   }
 
   @Override
-  public void createGif() throws IOException, AWTException {
+  public void startRecording() {
+    isRecording = true;
+  }
+
+  @Override
+  public void stopRecording() {
+    isRecording = false;
+  }
+
+  private void recorder() throws IOException, AWTException {
     LOGGER.info("Gif maker called, from edt? : " + SwingUtilities.isEventDispatchThread());
     BufferedImage testImage = ImageIO.read(
         new File(imageDirectory.toString() + File.separator + META_DATA_IMAGE));
@@ -57,9 +72,9 @@ public class GifMakerImpl implements GifMaker {
     Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
     Robot robot = new Robot();
 
-    int count = 0;
+    while (isRecording) {
 
-    while (count < 10) {
+      int count = 0;
 
       BufferedImage image = robot.createScreenCapture(screenRect);
       ImageIO.write(image, JPEG_TYPE,

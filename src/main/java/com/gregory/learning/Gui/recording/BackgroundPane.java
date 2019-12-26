@@ -45,6 +45,8 @@ public class BackgroundPane extends JPanel implements ActionListener {
   Point topLeftPixel, topRightPixel, bottomLeftPixel, bottomRightPixel;
   private JButton recordButton;
   private JButton backButton;
+  private JButton stopButton;
+  private boolean listenersActive = true;
 
   private SelectionPane selectionPane;
 
@@ -78,10 +80,14 @@ public class BackgroundPane extends JPanel implements ActionListener {
     jPanel.setLayout(new FlowLayout());
     recordButton = new JButton("Record");
     backButton = new JButton("Back");
+    stopButton = new JButton("Stop");
+    stopButton.setVisible(false);
     jPanel.add(recordButton);
     jPanel.add(backButton);
+    jPanel.add(stopButton);
     backButton.addActionListener(this);
     recordButton.addActionListener(this);
+    stopButton.addActionListener(this);
     setLayout(null);
     selectionPane.setBounds(x, y, w, h);
     setDarkCoordinates(x, y, w, h);
@@ -93,6 +99,9 @@ public class BackgroundPane extends JPanel implements ActionListener {
     MouseAdapter adapter = new MouseAdapter() {
       @Override
       public void mousePressed(MouseEvent e) {
+        if (!listenersActive) {
+          return;
+        }
         selectionPane.remove(jLabel);
         mouseAnchor = e.getPoint();
         dragPoint = null;
@@ -105,6 +114,9 @@ public class BackgroundPane extends JPanel implements ActionListener {
 
       @Override
       public void mouseDragged(MouseEvent e) {
+        if (!listenersActive) {
+          return;
+        }
         selectionPane.remove(jLabel);
         BackgroundPane.super.add(jPanel);
         dragPoint = e.getPoint();
@@ -146,13 +158,30 @@ public class BackgroundPane extends JPanel implements ActionListener {
       win.dispose();
     }
     if (clicked == recordButton) {
-      try {
-        gifMaker.createGif();
-      } catch (IOException ex) {
-        ex.printStackTrace();
-      } catch (AWTException ex) {
-        ex.printStackTrace();
-      }
+//      try {
+      backButton.setVisible(false);
+      recordButton.setVisible(false);
+      listenersActive = false;
+      stopButton.setVisible(true);
+//        gifMaker.startRecording();
+//      }
+//      catch (IOException ex) {
+//        ex.printStackTrace();
+//      } catch (AWTException ex) {
+//        ex.printStackTrace();
+//      }
+    }
+    if (clicked == stopButton) {
+//      try {
+//        gifMaker.stopRecording();
+//      } catch (IOException ex) {
+//        ex.printStackTrace();
+//      } catch (AWTException ex) {
+//        ex.printStackTrace();
+//      }
+      JComponent comp = (JComponent) e.getSource();
+      Window win = SwingUtilities.getWindowAncestor(comp);
+      win.dispose();
     }
   }
 
