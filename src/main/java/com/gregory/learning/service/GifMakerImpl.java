@@ -49,8 +49,15 @@ public class GifMakerImpl implements GifMaker {
   }
 
   @Override
-  public void startRecording() {
+  public void startRecording(int x, int y, int w, int h) {
     isRecording = true;
+    try {
+      recorder(x, y, w, h);
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (AWTException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
@@ -58,7 +65,7 @@ public class GifMakerImpl implements GifMaker {
     isRecording = false;
   }
 
-  private void recorder() throws IOException, AWTException {
+  private void recorder(int x, int y, int w, int h) throws IOException, AWTException {
     LOGGER.info("Gif maker called, from edt? : " + SwingUtilities.isEventDispatchThread());
     BufferedImage testImage = ImageIO.read(
         new File(imageDirectory.toString() + File.separator + META_DATA_IMAGE));
@@ -69,12 +76,12 @@ public class GifMakerImpl implements GifMaker {
     GifSequenceWriter gifSequenceWriter = new GifSequenceWriter(outputStream, testImage.getType(),
         10, true);
 
-    Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+    Rectangle screenRect = new Rectangle(x, y, w, h);
     Robot robot = new Robot();
 
-    while (isRecording) {
+    int count = 0;
 
-      int count = 0;
+    while (isRecording) {
 
       BufferedImage image = robot.createScreenCapture(screenRect);
       ImageIO.write(image, JPEG_TYPE,

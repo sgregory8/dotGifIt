@@ -135,11 +135,11 @@ public class BackgroundPane extends JPanel implements ActionListener {
           height *= -1;
         }
 
-        setDarkCoordinates(x, y, width, height);
-
         selectionPane.setBounds(x, y, width, height);
         jPanel.setLocation(x + width / 2 - jPanel.getWidth() / 2, y + height);
         selectionPane.revalidate();
+        setDarkCoordinates(x, y, width, height);
+        System.out.println("coords are: " + x + " " + y);
         repaint();
       }
 
@@ -163,22 +163,28 @@ public class BackgroundPane extends JPanel implements ActionListener {
       recordButton.setVisible(false);
       listenersActive = false;
       stopButton.setVisible(true);
-//        gifMaker.startRecording();
-//      }
-//      catch (IOException ex) {
-//        ex.printStackTrace();
-//      } catch (AWTException ex) {
-//        ex.printStackTrace();
-//      }
+      new Thread(() -> {
+        try {
+          gifMaker
+              .startRecording(selectionPane.getLocationOnScreen().x + 1,
+                  selectionPane.getLocationOnScreen().y + 1,
+                  selectionPane.getWidth() - 2,
+                  selectionPane.getHeight() - 2);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        } catch (AWTException ex) {
+          ex.printStackTrace();
+        }
+      }).start();
     }
     if (clicked == stopButton) {
-//      try {
-//        gifMaker.stopRecording();
-//      } catch (IOException ex) {
-//        ex.printStackTrace();
-//      } catch (AWTException ex) {
-//        ex.printStackTrace();
-//      }
+      try {
+        gifMaker.stopRecording();
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      } catch (AWTException ex) {
+        ex.printStackTrace();
+      }
       JComponent comp = (JComponent) e.getSource();
       Window win = SwingUtilities.getWindowAncestor(comp);
       win.dispose();
@@ -219,7 +225,7 @@ public class BackgroundPane extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
       Graphics2D g2d = (Graphics2D) g.create();
-      g2d.setColor(new Color(128, 128, 128, 0));
+      g2d.setColor(new Color(0, 0, 0, 0));
       g2d.fillRect(0, 0, getWidth(), getHeight());
 
       float dash1[] = {5.0f};
