@@ -74,7 +74,7 @@ public class GifMakerImpl implements GifMaker {
         new File(imageDirectory.toString() + File.separator + GIF_NAME + GIF_SUFFIX));
 
     GifSequenceWriter gifSequenceWriter = new GifSequenceWriter(outputStream, testImage.getType(),
-        10, true);
+        1, true);
 
     Rectangle screenRect = new Rectangle(x, y, w, h);
     Robot robot = new Robot();

@@ -158,7 +158,6 @@ public class BackgroundPane extends JPanel implements ActionListener {
       win.dispose();
     }
     if (clicked == recordButton) {
-//      try {
       backButton.setVisible(false);
       recordButton.setVisible(false);
       listenersActive = false;
