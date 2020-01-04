@@ -9,9 +9,7 @@ import java.nio.file.Paths;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import org.springframework.stereotype.Component;
 
-@Component
 public class RightPanel extends JPanel implements ActionListener {
 
   private static final String GIF_DIRECTORY = "images";
@@ -29,7 +27,7 @@ public class RightPanel extends JPanel implements ActionListener {
         .toString());
 
     Image image = imageIcon.getImage(); // transform it
-    Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH);
+    Image newimg = image.getScaledInstance(220, 170,  java.awt.Image.SCALE_SMOOTH);
     imageIcon = new ImageIcon(newimg);
 
     this.jLabel = new JLabel(imageIcon);
