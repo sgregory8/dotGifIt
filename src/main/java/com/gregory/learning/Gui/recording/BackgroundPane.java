@@ -3,10 +3,8 @@ package com.gregory.learning.Gui.recording;
 import com.gregory.learning.service.GifMaker;
 import java.awt.AWTException;
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,24 +12,26 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
+import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import org.springframework.stereotype.Component;
 
-public class BackgroundPane extends JPanel implements ActionListener {
+public class BackgroundPane extends JPanel implements ActionListener, MouseMotionListener {
 
   private Point mouseAnchor;
   private Point dragPoint;
@@ -47,12 +47,14 @@ public class BackgroundPane extends JPanel implements ActionListener {
   private JButton backButton;
   private JButton stopButton;
   private boolean listenersActive = true;
+  private boolean firstRender = true;
 
   private SelectionPane selectionPane;
 
   private GifMaker gifMaker;
 
   public BackgroundPane(GifMaker gifMaker) {
+    addMouseMotionListener(this);
     this.gifMaker = gifMaker;
     super.setOpaque(false);
     // Get the size of the screen
@@ -65,8 +67,8 @@ public class BackgroundPane extends JPanel implements ActionListener {
     bottomRightPixel = new Point(dim.width, dim.height);
 
     // Determine the new location of the window
-    int w = 300;
-    int h = 300;
+    int w = 0;
+    int h = 0;
     int x = (dim.width - w) / 2;
     int y = (dim.height - h) / 2;
 
@@ -74,6 +76,7 @@ public class BackgroundPane extends JPanel implements ActionListener {
     jLabel = new JLabel("Drag to set recording area");
     jLabel.setFont(jLabel.getFont().deriveFont(20.0f));
     jLabel.setForeground(Color.RED);
+    jLabel.setLocation(100, 100);
     jPanel = new JPanel();
     jPanel.setSize(500, 100);
     jPanel.setOpaque(false);
@@ -81,6 +84,7 @@ public class BackgroundPane extends JPanel implements ActionListener {
     recordButton = new JButton("Record");
     backButton = new JButton("Back");
     stopButton = new JButton("Stop");
+    backButton.setOpaque(false);
     stopButton.setVisible(false);
     jPanel.add(recordButton);
     jPanel.add(backButton);
@@ -89,31 +93,33 @@ public class BackgroundPane extends JPanel implements ActionListener {
     recordButton.addActionListener(this);
     stopButton.addActionListener(this);
     setLayout(null);
-    selectionPane.setBounds(x, y, w, h);
     setDarkCoordinates(x, y, w, h);
+
     jPanel.setLocation(x + w / 2 - jPanel.getWidth() / 2, y + h);
-    add(selectionPane);
-    selectionPane.add(jLabel);
-    add(jPanel);
+    super.add(selectionPane);
+    super.add(jLabel);
 
     MouseAdapter adapter = new MouseAdapter() {
       @Override
       public void mousePressed(MouseEvent e) {
+//        firstRender = false;
         if (!listenersActive) {
           return;
         }
-        selectionPane.remove(jLabel);
+//        selectionPane.remove(jLabel);
         mouseAnchor = e.getPoint();
         dragPoint = null;
-        selectionPane.setLocation(mouseAnchor);
-        setDarkCoordinates(x, y, 0, 0);
-        jPanel.setLocation(e.getX() - jPanel.getWidth() / 2, e.getY());
-        selectionPane.setSize(0, 0);
+//        selectionPane.setLocation(mouseAnchor);
+//        setDarkCoordinates(x, y, 0, 0);
+//        jPanel.setLocation(e.getX() - jPanel.getWidth() / 2, e.getY());
+//        selectionPane.setSize(0, 0);
         repaint();
       }
 
       @Override
       public void mouseDragged(MouseEvent e) {
+        recordButton.setEnabled(false);
+        firstRender = false;
         if (!listenersActive) {
           return;
         }
@@ -139,7 +145,13 @@ public class BackgroundPane extends JPanel implements ActionListener {
         jPanel.setLocation(x + width / 2 - jPanel.getWidth() / 2, y + height);
         selectionPane.revalidate();
         setDarkCoordinates(x, y, width, height);
-        System.out.println("coords are: " + x + " " + y);
+        System.out.println("coords are: " + selectionPane.getX() + " " + selectionPane.getY());
+        System.out.println("height and width are :" + darkH + " " + darkW);
+
+        if (darkH > 5 || darkW > 5) {
+          recordButton.setEnabled(true);
+        }
+
         repaint();
       }
 
@@ -184,6 +196,7 @@ public class BackgroundPane extends JPanel implements ActionListener {
       } catch (AWTException ex) {
         ex.printStackTrace();
       }
+      listenersActive = true;
       JComponent comp = (JComponent) e.getSource();
       Window win = SwingUtilities.getWindowAncestor(comp);
       win.dispose();
@@ -212,6 +225,19 @@ public class BackgroundPane extends JPanel implements ActionListener {
     this.darkY = darkY;
     this.darkW = darkW;
     this.darkH = darkH;
+  }
+
+  @Override
+  public void mouseDragged(MouseEvent e) {
+    System.out.println("cursor is: " + getCursor());
+    gifMaker.setCursorInformation(getCursor(), e.getX(), e.getY());
+  }
+
+  @Override
+  public void mouseMoved(MouseEvent e) {
+    System.out.println("cursor is: " + getCursor());
+    gifMaker.setCursorInformation(getCursor(), e.getX(), e.getY());
+
   }
 
   public class SelectionPane extends JPanel {

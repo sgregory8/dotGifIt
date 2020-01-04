@@ -1,12 +1,8 @@
 package com.gregory.learning.Gui;
 
-import static javax.swing.SwingUtilities.isEventDispatchThread;
-import static javax.swing.SwingUtilities.isLeftMouseButton;
-
 import com.gregory.learning.DotGifItApplication;
 import com.gregory.learning.Gui.panels.LeftPanel;
 import com.gregory.learning.Gui.panels.RightPanel;
-import com.gregory.learning.service.GifMaker;
 import java.awt.BorderLayout;
 import java.awt.HeadlessException;
 import java.io.File;
@@ -63,7 +59,7 @@ public class UIContainer extends JFrame {
 
 
     setTitle("dot GIF it!");
-    setSize(300, 200);
+    setSize(400, 200);
     setLocationRelativeTo(null);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setIconImage(imageIcon.getImage());
