@@ -1,6 +1,7 @@
 ### DotGifIt
 
-A simple screen recorder made in java.
+A simple screen recorder made in java. This application will create a directory called DotGifIt in your 
+user.home! This file contains config info and can be edited directly or using the application.
 
 ## To run
 
