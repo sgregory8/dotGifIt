@@ -4,7 +4,11 @@ A simple screen recorder made in java.
 
 ## To run
 
+Should be directly runnable from an IDE but would advise the following to run without that overhead. Assuming 
+the user has Maven installed.
+
 ```bash
+cd <dotGifIt-root-directory>
 mvn clean install
-java -jar <pathToJar>
+java -jar target/dot-gif-it-0.0.1-SNAPSHOT.jar
 ```
