@@ -16,11 +16,13 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Time;
 import java.util.Properties;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,17 +55,17 @@ public class GifMakerImpl implements GifMaker {
   private static final Logger LOGGER = LoggerFactory.getLogger(GifMakerImpl.class);
 
   static {
-    try {
+//    try {
 //      Path path = Paths.get(GifMakerImpl.class.getResource(File.separator + IMAGE_DIRECTORY_NAME).toURI());
 //      if (input == null) {
 //        // this is how we load file within editor (eg eclipse)
 //        input = GifMakerImpl.class.getClassLoader().getResourceAsStream(File.separator + IMAGE_DIRECTORY_NAME);
 //      }
-      imageDirectory = Paths
-          .get(GifMakerImpl.class.getClassLoader().getResource(IMAGE_DIRECTORY_NAME).toURI());
-    } catch (URISyntaxException e) {
-      LOGGER.error(e.getMessage(), e.getCause());
-    }
+//      imageDirectory = Paths
+//          .get(GifMakerImpl.class.getClassLoader().getResource(IMAGE_DIRECTORY_NAME).toURI());
+//    } catch (URISyntaxException e) {
+//      LOGGER.error(e.getMessage(), e.getCause());
+//    }
   }
 
   @Override
@@ -86,7 +88,7 @@ public class GifMakerImpl implements GifMaker {
   private void recorder(int x, int y, int w, int h) throws IOException, AWTException {
     LOGGER.info("Gif maker called, from edt? : " + SwingUtilities.isEventDispatchThread());
     BufferedImage testImage = ImageIO.read(
-        new File(imageDirectory.toString() + File.separator + META_DATA_IMAGE));
+        new File(getClass().getClassLoader().getResource(META_DATA_IMAGE).getFile()));
 
     Properties prop = new Properties();
     FileInputStream ip = new FileInputStream(
@@ -100,7 +102,7 @@ public class GifMakerImpl implements GifMaker {
         new File(fileNameToSaveTo + File.separator + System.currentTimeMillis() + GIF_SUFFIX));
 
     GifSequenceWriter gifSequenceWriter = new GifSequenceWriter(outputStream, testImage.getType(),
-        1, true);
+        10, true);
 
     Rectangle screenRect = new Rectangle(x, y, w, h);
     Robot robot = new Robot();
@@ -114,10 +116,12 @@ public class GifMakerImpl implements GifMaker {
 //          new File(imageDirectory + File.separator + count + IMAGE_SUFFIX));
 
       gifSequenceWriter.writeToSequence(image);
+      System.out.println("called to write to sequence at: " + System.currentTimeMillis());
       count++;
     }
     LOGGER.info("Closing gif writer and image output streams");
     gifSequenceWriter.close();
     outputStream.close();
+//    Thread.sleep();
   }
 }

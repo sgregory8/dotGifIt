@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import javax.swing.ImageIcon;
@@ -21,10 +22,9 @@ public class RightPanel extends JPanel implements ActionListener {
   private ImageIcon imageIcon;
 
   public RightPanel() throws URISyntaxException {
-    this.imageIcon = new ImageIcon(Paths
-        .get(RightPanel.class.getClassLoader()
-            .getResource(GIF_DIRECTORY + File.separator + ICON_NAME + ICON_TYPE).toURI())
-        .toString());
+    this.imageIcon = new ImageIcon(getClass().getClassLoader()
+            .getResource(GIF_DIRECTORY + File.separator + ICON_NAME + ICON_TYPE));
+
 
     Image image = imageIcon.getImage(); // transform it
     Image newimg = image.getScaledInstance(220, 170,  java.awt.Image.SCALE_SMOOTH);

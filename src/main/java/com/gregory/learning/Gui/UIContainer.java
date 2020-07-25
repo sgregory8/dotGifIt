@@ -35,14 +35,8 @@ public class UIContainer extends JFrame {
       throws HeadlessException {
     this.leftPanel = leftPanel;
     this.rightPanel = rightPanel;
-    try {
-      this.imageIcon = new ImageIcon(Paths
-          .get(UIContainer.class.getClassLoader()
-              .getResource(ICON_DIRECTORY + File.separator + ICON_NAME + ICON_TYPE).toURI())
-          .toString());
-    } catch (URISyntaxException e) {
-      e.printStackTrace();
-    }
+    this.imageIcon = new ImageIcon(getClass().getClassLoader()
+        .getResource(ICON_DIRECTORY + File.separator + ICON_NAME + ICON_TYPE));
   }
 
   public void runApp() {
@@ -56,7 +50,6 @@ public class UIContainer extends JFrame {
 
     add(leftPanel, BorderLayout.WEST);
     add(rightPanel, BorderLayout.EAST);
-
 
     setTitle("dot GIF it!");
     setSize(400, 200);
