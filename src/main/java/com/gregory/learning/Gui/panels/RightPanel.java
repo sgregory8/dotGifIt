@@ -23,6 +23,7 @@ public class RightPanel extends JPanel implements ActionListener {
 
   public RightPanel() throws URISyntaxException {
     String imageLocation = GIF_DIRECTORY + File.separator + ICON_NAME + ICON_TYPE;
+    System.out.println(getClass().getResource(File.separator + imageLocation).getPath());
     this.imageIcon = new ImageIcon(getClass()
             .getResource(File.separator + imageLocation));
 

@@ -121,11 +121,11 @@ public class InitService {
 
       prop.load(propsInput);
       return Boolean.valueOf(prop.get(SHOW_DEMO).toString());
-    } catch (FileNotFoundException e) {
+    } catch (NullPointerException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return true;
+    return false;
   }
 }

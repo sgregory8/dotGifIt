@@ -88,7 +88,7 @@ public class GifMakerImpl implements GifMaker {
   private void recorder(int x, int y, int w, int h) throws IOException, AWTException {
     LOGGER.info("Gif maker called, from edt? : " + SwingUtilities.isEventDispatchThread());
     BufferedImage testImage = ImageIO.read(
-        new File(getClass().getClassLoader().getResource(META_DATA_IMAGE).getFile()));
+        new File(getClass().getResource("/" + IMAGE_DIRECTORY_NAME + "/" + META_DATA_IMAGE).getFile()));
 
     Properties prop = new Properties();
     FileInputStream ip = new FileInputStream(
