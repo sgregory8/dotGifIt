@@ -35,8 +35,8 @@ public class UIContainer extends JFrame {
       throws HeadlessException {
     this.leftPanel = leftPanel;
     this.rightPanel = rightPanel;
-    this.imageIcon = new ImageIcon(getClass().getClassLoader()
-        .getResource(ICON_DIRECTORY + File.separator + ICON_NAME + ICON_TYPE));
+    this.imageIcon = new ImageIcon(getClass()
+        .getResource(File.separator + ICON_DIRECTORY + File.separator + ICON_NAME + ICON_TYPE));
   }
 
   public void runApp() {
