@@ -86,7 +86,6 @@ public class LeftPanel extends JPanel implements ActionListener, WindowListener 
         } catch (URISyntaxException ex) {
           ex.printStackTrace();
         }
-        demoFrame.pack();
         demoFrame.setAlwaysOnTop(true);
         demoFrame.setVisible(true);
       } else {
@@ -127,7 +126,6 @@ public class LeftPanel extends JPanel implements ActionListener, WindowListener 
 
         darkFrame.add(new BackgroundPane(gifMaker));
 
-        darkFrame.pack();
         darkFrame.setAlwaysOnTop(true);
         darkFrame.setVisible(true);
       }
@@ -177,7 +175,6 @@ public class LeftPanel extends JPanel implements ActionListener, WindowListener 
 
       darkFrame.add(new BackgroundPane(gifMaker));
 
-      darkFrame.pack();
       darkFrame.setAlwaysOnTop(true);
       darkFrame.setVisible(true);
     } else {

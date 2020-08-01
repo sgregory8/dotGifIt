@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.gregory.learning</groupId>
 	<artifactId>dot-gif-it</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<name>dot-gif-it</name>
 	<description>Demo project for Spring Boot</description>
 
