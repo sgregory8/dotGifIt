@@ -20,7 +20,7 @@ java -jar target/dot-gif-it-<version>.jar
 JAR available [here](https://github.com/sgregory8/dotGifIt/releases)
 
 ```bash
-java -jar target/dot-gif-it-<version>.jar
+java -jar dot-gif-it-<version>.jar
 ```
 
 ## Known Issues
