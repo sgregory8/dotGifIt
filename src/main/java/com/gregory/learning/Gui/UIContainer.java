@@ -36,7 +36,7 @@ public class UIContainer extends JFrame {
     this.leftPanel = leftPanel;
     this.rightPanel = rightPanel;
     this.imageIcon = new ImageIcon(getClass()
-        .getResource(File.separator + ICON_DIRECTORY + File.separator + ICON_NAME + ICON_TYPE));
+        .getResource("/" + ICON_DIRECTORY + "/" + ICON_NAME + ICON_TYPE));
   }
 
   public void runApp() {

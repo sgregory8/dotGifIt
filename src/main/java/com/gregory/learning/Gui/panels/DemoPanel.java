@@ -33,7 +33,7 @@ public class DemoPanel extends JPanel implements ActionListener {
 
   public DemoPanel() throws URISyntaxException {
     this.imageIcon = new ImageIcon(getClass()
-        .getResource(File.separator + GIF_DIRECTORY + File.separator + ICON_NAME + ICON_TYPE));
+        .getResource("/" + GIF_DIRECTORY + "/" + ICON_NAME + ICON_TYPE));
     Image image = imageIcon.getImage();// transform it
     imageIcon = new ImageIcon(image);
 
